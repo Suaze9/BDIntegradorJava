@@ -5,6 +5,7 @@
  */
 package bdintegrador;
 import java.sql.*;
+import java.util.ArrayList;
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
 
@@ -355,7 +356,7 @@ public class Main extends javax.swing.JFrame {
     }//GEN-LAST:event_jb_eliminarActionPerformed
 
     private void jb_guardar_trigActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jb_guardar_trigActionPerformed
-        // TODO add your handling code here:
+        crearTriggers();
     }//GEN-LAST:event_jb_guardar_trigActionPerformed
 
     private void jb_cancelar_trigActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jb_cancelar_trigActionPerformed
@@ -388,6 +389,15 @@ public class Main extends javax.swing.JFrame {
                 DatabaseMetaData metaObj = (DatabaseMetaData) connectSrc.getMetaData();
                 System.out.println("Driver Name?= " + metaObj.getDriverName() + ", Driver Version?="  + metaObj.getDriverVersion() + ", Product Name?= " + metaObj.getDatabaseProductName() + ", Product Version?= " + metaObj.getDatabaseProductVersion());
             }
+            Statement stmt = connectSrc.createStatement();
+            ResultSet rs=stmt.executeQuery("select * from actor");  
+            ResultSetMetaData metadata = rs.getMetaData();
+            int ColCount = metadata.getColumnCount();
+            System.out.println(metadata.getColumnTypeName(1));
+            System.out.println(metadata.getColumnTypeName(2));
+            System.out.println(metadata.getColumnTypeName(3));
+            System.out.println(metadata.getColumnTypeName(4));
+            
             JOptionPane.showMessageDialog(this, "Conexion Exitosa!");
         }catch(Exception e){ 
            JOptionPane.showMessageDialog(this, "ERROR!");
@@ -505,10 +515,121 @@ public class Main extends javax.swing.JFrame {
         }
     }
     
+    /*
+    create trigger prueba on actor
+        after update, insert, delete
+        as
+        begin
+                select * from actor;
+        end
+        go
+    */
+    
     public void crearTriggers(){
-        DefaultListModel dmodel_des= (DefaultListModel)jl_destino.getModel();
-        for (int i = 0; i < dmodel_des.size(); i++) {
-            
+        try{
+            DefaultListModel dmodel_des= (DefaultListModel)jl_destino.getModel();
+            for (int i = 0; i < dmodel_des.size(); i++) {
+                String tabla = (String)dmodel_des.getElementAt(i);
+                Statement stmt = connectSrc.createStatement();
+                ResultSet rs=stmt.executeQuery("select * from " + tabla);  
+                ResultSetMetaData metadata = rs.getMetaData();
+                int ColCount = metadata.getColumnCount();
+                rs.next();
+                ArrayList<String> columnas = new <String>ArrayList();
+                
+                /*
+                //CREAR LA TABLA LOG DE CADA TABLA POR TRANSFERIR
+                for (int j = 1; j <= ColCount; j++) {
+                    columnas.add(metadata.getColumnName(j) + "_old"); 
+                    columnas.add(metadata.getColumnTypeName(j));
+                    columnas.add(metadata.getColumnName(j) + "_new"); 
+                    columnas.add(metadata.getColumnTypeName(j));
+                }
+                
+                //tipo 1= update, 2= insert, 3= delete
+                
+                String tablaLog = "create table " + tabla + "_log ( tipo INT NOT NULL, ";
+                
+                for (int j = 0; j < columnas.size(); j++) {
+                    tablaLog += columnas.get(j) + " ";
+                    j++;
+                    if ("VARCHAR".equals(columnas.get(j)) || "varchar".equals(columnas.get(j))) {
+                        tablaLog += columnas.get(j) + "(50) DEFAULT NULL, ";
+                    }else{
+                        tablaLog += columnas.get(j) + " DEFAULT NULL, ";
+                    }
+                }
+                
+                tablaLog = tablaLog.substring(0, tablaLog.length() - 1);
+                tablaLog += ")";
+                
+                try{
+                    stmt.executeQuery(tablaLog);
+                }catch(Exception e){
+                    System.out.println("Exeption inevitable: ");
+                    e.printStackTrace();
+                }
+                //CREAR LOS TRIGGERS PARA AGREGAR A LA TABLA LOG
+                
+                //UPDATE = 1
+                rs=stmt.executeQuery("select * from " + tabla);  
+                metadata = rs.getMetaData();
+                String trigger = "create trigger " + tabla + "_log_trig on " + tabla + " "
+                        + "after update "
+                        + "as "
+                        + "begin "
+                        + "insert into " + tabla + "_log "
+                        + "( 1, ";
+                
+                for (int j = 1; j <= ColCount; j++) {
+                    trigger += metadata.getColumnName(j) + "_old, ";
+                    trigger += metadata.getColumnName(j) + "_new, ";
+                }
+                trigger = trigger.substring(0, trigger.length() - 1);
+                
+                stmt.executeQuery(trigger);
+                
+                //INSERT = 2
+                rs=stmt.executeQuery("select * from " + tabla);  
+                metadata = rs.getMetaData();
+                trigger = "create trigger " + tabla + "_log_trig on " + tabla + " "
+                        + "after insert "
+                        + "as "
+                        + "begin "
+                        + "insert into " + tabla + "_log "
+                        + "( 2, ";
+                
+                for (int j = 1; j <= ColCount; j++) {
+                    trigger += "null, ";
+                    trigger += metadata.getColumnName(j) + "_new, ";
+                }
+                trigger = trigger.substring(0, trigger.length() - 1);
+                
+                stmt.executeQuery(trigger);
+                
+                //DELETE = 3
+                rs=stmt.executeQuery("select * from " + tabla);  
+                metadata = rs.getMetaData();
+                trigger = "create trigger " + tabla + "_log_trig on " + tabla + " "
+                        + "after delete "
+                        + "as "
+                        + "begin "
+                        + "insert into " + tabla + "_log "
+                        + "( 3, ";
+                
+                for (int j = 1; j <= ColCount; j++) {
+                    trigger += metadata.getColumnName(j) + ", ";
+                    trigger += "null, ";
+                }
+                trigger = trigger.substring(0, trigger.length() - 1);
+                
+                stmt.executeQuery(trigger);
+                
+                System.out.println("");
+                */
+            }
+        }catch(Exception e){
+            e.printStackTrace();
         }
     }
     
