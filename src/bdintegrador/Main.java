@@ -5,6 +5,8 @@
  */
 package bdintegrador;
 import java.sql.*;
+import javax.swing.DefaultListModel;
+import javax.swing.JOptionPane;
 
 
 /**
@@ -18,6 +20,8 @@ public class Main extends javax.swing.JFrame {
      */
     public Main() {
         initComponents();
+        jl_origen.setModel(new DefaultListModel());
+        jl_destino.setModel(new DefaultListModel());
     }
 
     /**
@@ -33,18 +37,10 @@ public class Main extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
-        jLabel6 = new javax.swing.JLabel();
-        jLabel7 = new javax.swing.JLabel();
-        nom_instancia_origen = new javax.swing.JTextField();
         nom_base_origen = new javax.swing.JTextField();
         puerto_origen = new javax.swing.JTextField();
-        nom_usuario_origen = new javax.swing.JTextField();
-        pass_origen = new javax.swing.JTextField();
-        jLabel8 = new javax.swing.JLabel();
-        nom_instancia_destino = new javax.swing.JTextField();
         jLabel9 = new javax.swing.JLabel();
         nom_base_destino = new javax.swing.JTextField();
         jLabel10 = new javax.swing.JLabel();
@@ -68,6 +64,7 @@ public class Main extends javax.swing.JFrame {
         jb_eliminar = new javax.swing.JButton();
         jb_guardar_trig = new javax.swing.JButton();
         jb_cancelar_trig = new javax.swing.JButton();
+        jb_cargar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -77,23 +74,27 @@ public class Main extends javax.swing.JFrame {
         jLabel2.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel2.setText("Base de Datos Destino");
 
-        jLabel3.setText("Nombre Instancia");
-
         jLabel4.setText("Nombre Base de Datos");
 
         jLabel5.setText("Puerto");
 
-        jLabel6.setText("Nombre Usuario");
+        nom_base_origen.setText("sakila");
 
-        jLabel7.setText("Password");
-
-        jLabel8.setText("Nombre Instancia");
+        puerto_origen.setText("1433");
 
         jLabel9.setText("Nombre Base de Datos");
 
+        nom_base_destino.setText("sakila");
+
         jLabel10.setText("Puerto");
 
+        puerto_destino.setText("3307");
+
         jLabel11.setText("Nombre Usuario");
+
+        nom_usuario_destino.setText("root");
+
+        pass_destino.setText("password");
 
         jLabel12.setText("Password");
 
@@ -130,44 +131,28 @@ public class Main extends javax.swing.JFrame {
                 .addGap(38, 38, 38))
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel3)
-                        .addGap(43, 43, 43)
-                        .addComponent(nom_instancia_origen, javax.swing.GroupLayout.PREFERRED_SIZE, 186, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel4)
-                            .addComponent(jLabel5)
-                            .addComponent(jLabel6)
-                            .addComponent(jLabel7))
-                        .addGap(18, 18, 18)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jb_probar_origen)
-                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(nom_base_origen)
-                                .addComponent(puerto_origen)
-                                .addComponent(nom_usuario_origen)
-                                .addComponent(pass_origen)))))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel4)
+                    .addComponent(jLabel5))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jb_probar_origen)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(nom_base_origen, javax.swing.GroupLayout.DEFAULT_SIZE, 186, Short.MAX_VALUE)
+                        .addComponent(puerto_origen)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 60, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel9)
+                    .addComponent(jLabel10)
+                    .addComponent(jLabel11)
+                    .addComponent(jLabel12))
+                .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel8)
-                        .addGap(43, 43, 43)
-                        .addComponent(nom_instancia_destino, javax.swing.GroupLayout.PREFERRED_SIZE, 186, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel9)
-                            .addComponent(jLabel10)
-                            .addComponent(jLabel11)
-                            .addComponent(jLabel12))
-                        .addGap(18, 18, 18)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jb_probar_destino)
-                            .addComponent(nom_base_destino)
-                            .addComponent(puerto_destino)
-                            .addComponent(nom_usuario_destino)
-                            .addComponent(pass_destino, javax.swing.GroupLayout.PREFERRED_SIZE, 186, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addComponent(jb_probar_destino)
+                    .addComponent(nom_base_destino)
+                    .addComponent(puerto_destino)
+                    .addComponent(nom_usuario_destino)
+                    .addComponent(pass_destino, javax.swing.GroupLayout.PREFERRED_SIZE, 186, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(303, 303, 303)
@@ -181,33 +166,17 @@ public class Main extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(jLabel2))
-                .addGap(18, 18, 18)
+                .addGap(29, 29, 29)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel3)
-                            .addComponent(nom_instancia_origen, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel4)
                             .addComponent(nom_base_origen, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel5)
-                            .addComponent(puerto_origen, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel6)
-                            .addComponent(nom_usuario_origen, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel7)
-                            .addComponent(pass_origen, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(puerto_origen, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel8)
-                            .addComponent(nom_instancia_destino, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel9)
                             .addComponent(nom_base_destino, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -223,11 +192,11 @@ public class Main extends javax.swing.JFrame {
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel12)
                             .addComponent(pass_destino, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(32, 32, 32)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jb_probar_origen)
                     .addComponent(jb_probar_destino))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 19, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 25, Short.MAX_VALUE)
                 .addComponent(jb_guardar)
                 .addContainerGap())
         );
@@ -275,23 +244,30 @@ public class Main extends javax.swing.JFrame {
             }
         });
 
+        jb_cargar.setText("Cragar");
+        jb_cargar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jb_cargarActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(246, 246, 246)
+                        .addComponent(jb_cargar)
+                        .addGap(163, 163, 163)
                         .addComponent(jLabel13)
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addContainerGap()
                         .addComponent(jLabel14)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jLabel15))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                        .addContainerGap()
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -314,7 +290,9 @@ public class Main extends javax.swing.JFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jLabel13)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel13)
+                            .addComponent(jb_cargar))
                         .addGap(18, 18, 18)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel14)
@@ -328,7 +306,7 @@ public class Main extends javax.swing.JFrame {
                                 .addComponent(jb_agregar)
                                 .addGap(44, 44, 44)
                                 .addComponent(jb_eliminar)))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 16, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 12, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jb_guardar_trig)
                     .addComponent(jb_cancelar_trig)))
@@ -342,7 +320,7 @@ public class Main extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 711, Short.MAX_VALUE)
+                .addComponent(jTabbedPane1)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -365,15 +343,15 @@ public class Main extends javax.swing.JFrame {
     }//GEN-LAST:event_jb_probar_destinoActionPerformed
 
     private void jb_guardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jb_guardarActionPerformed
-        // TODO add your handling code here:
+        guardarDatos();
     }//GEN-LAST:event_jb_guardarActionPerformed
 
     private void jb_agregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jb_agregarActionPerformed
-        // TODO add your handling code here:
+        agregarTabla();
     }//GEN-LAST:event_jb_agregarActionPerformed
 
     private void jb_eliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jb_eliminarActionPerformed
-        // TODO add your handling code here:
+        eliminarTabla();
     }//GEN-LAST:event_jb_eliminarActionPerformed
 
     private void jb_guardar_trigActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jb_guardar_trigActionPerformed
@@ -384,6 +362,10 @@ public class Main extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jb_cancelar_trigActionPerformed
 
+    private void jb_cargarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jb_cargarActionPerformed
+        cargarTablas();
+    }//GEN-LAST:event_jb_cargarActionPerformed
+
     public Connection connectSrc = null;
     public String JDBC_URL = "";
     
@@ -392,14 +374,23 @@ public class Main extends javax.swing.JFrame {
     
     public void probarOrigen(){
         try{
+            //PRUEBA
             JDBC_URL = "jdbc:sqlserver://localhost:1433;databaseName=sakila;integratedSecurity=true";
+            //
+            String base_or = nom_base_origen.getText();
+            String puerto_or = puerto_origen.getText();
+            
+            JDBC_URL = "jdbc:sqlserver://localhost:" + puerto_or + ";databaseName=" + base_or + ";integratedSecurity=true";
+            
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
             connectSrc = DriverManager.getConnection(JDBC_URL);
             if (connectSrc != null) {
                 DatabaseMetaData metaObj = (DatabaseMetaData) connectSrc.getMetaData();
                 System.out.println("Driver Name?= " + metaObj.getDriverName() + ", Driver Version?="  + metaObj.getDriverVersion() + ", Product Name?= " + metaObj.getDatabaseProductName() + ", Product Version?= " + metaObj.getDatabaseProductVersion());
             }
+            JOptionPane.showMessageDialog(this, "Conexion Exitosa!");
         }catch(Exception e){ 
+           JOptionPane.showMessageDialog(this, "ERROR!");
            e.printStackTrace();
         }
     }
@@ -409,8 +400,16 @@ public class Main extends javax.swing.JFrame {
             //PRUEBA
             JDBC_URL_DEST= "jdbc:mysql://localhost:3307/sakila?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
             //PRUEBA
+            
+            String base_des = nom_base_destino.getText();
+            String puerto_des = puerto_destino.getText();
+            String usuario_des = nom_usuario_destino.getText();
+            String pass_des = pass_destino.getText();
+            
+            JDBC_URL_DEST= "jdbc:mysql://localhost:" + puerto_des + "/" + base_des + "?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
+            
             //Class.forName("com.mysql.jdbc.Driver");
-            connectDest = DriverManager.getConnection(JDBC_URL_DEST,"root", "password");
+            connectDest = DriverManager.getConnection(JDBC_URL_DEST, usuario_des, pass_des);
             Statement stmt = connectDest.createStatement();
             if (connectDest != null) {
                 DatabaseMetaData metaObj = (DatabaseMetaData) connectDest.getMetaData();
@@ -425,29 +424,92 @@ public class Main extends javax.swing.JFrame {
                 }
                 System.out.println("");
             }
+            JOptionPane.showMessageDialog(this, "Conexion Exitosa!");
         }catch(Exception e){
+            JOptionPane.showMessageDialog(this, "ERROR!");
             e.printStackTrace();
         }
     }
     
     public void guardarDatos(){
+        try{
+        String base_or = nom_base_origen.getText();
+        String puerto_or = puerto_origen.getText();
+
+        JDBC_URL = "jdbc:sqlserver://localhost:" + puerto_or + ";databaseName=" + base_or + ";integratedSecurity=true";
+
+        Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+        connectSrc = DriverManager.getConnection(JDBC_URL);
         
+        String base_des = nom_base_destino.getText();
+        String puerto_des = puerto_destino.getText();
+        String usuario_des = nom_usuario_destino.getText();
+        String pass_des = pass_destino.getText();
+
+        JDBC_URL_DEST= "jdbc:mysql://localhost:" + puerto_des + "/" + base_des + "?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
+
+        //Class.forName("com.mysql.jdbc.Driver");
+        connectDest = DriverManager.getConnection(JDBC_URL_DEST, usuario_des, pass_des);
+            
+        JOptionPane.showMessageDialog(this, "Guardado Exitoso!");
+        }catch(Exception e){
+            JOptionPane.showMessageDialog(this, "ERROR!");
+            e.printStackTrace();
+        }
     }
     
     public void cargarTablas(){
+        try{
+        Statement stmt = connectSrc.createStatement();
+        ResultSet tablas = stmt.executeQuery("select TABLE_NAME from INFORMATION_SCHEMA.TABLES;");
+        ResultSetMetaData tablasMD = tablas.getMetaData();
+        DefaultListModel dmodel_or= new DefaultListModel();
+        while(tablas.next()){
+            dmodel_or.addElement(tablas.getString(1));
+        }
+        jl_origen.setModel(dmodel_or);
+        jl_destino.setModel(new DefaultListModel());
         
+        }catch(Exception e){
+            e.printStackTrace();
+        }
     }
     
     public void agregarTabla(){
-        
+        try{
+            DefaultListModel dmodel_or= (DefaultListModel)jl_origen.getModel();
+            DefaultListModel dmodel_des= (DefaultListModel)jl_destino.getModel();
+
+            dmodel_des.addElement(dmodel_or.getElementAt(jl_origen.getSelectedIndex()));
+            dmodel_or.remove(jl_origen.getSelectedIndex());
+
+            jl_origen.setModel(dmodel_or);
+            jl_destino.setModel(dmodel_des);
+        }catch(Exception e){
+            e.printStackTrace();
+        }
     }
     
     public void eliminarTabla(){
-        
+        try{
+            DefaultListModel dmodel_or= (DefaultListModel)jl_origen.getModel();
+            DefaultListModel dmodel_des= (DefaultListModel)jl_destino.getModel();
+
+            dmodel_or.addElement(dmodel_des.getElementAt(jl_destino.getSelectedIndex()));
+            dmodel_des.remove(jl_destino.getSelectedIndex());
+
+            jl_origen.setModel(dmodel_or);
+           jl_destino.setModel(dmodel_des);
+        }catch(Exception e){
+            e.printStackTrace();
+        }
     }
     
     public void crearTriggers(){
-        
+        DefaultListModel dmodel_des= (DefaultListModel)jl_destino.getModel();
+        for (int i = 0; i < dmodel_des.size(); i++) {
+            
+        }
     }
     
     /**
@@ -461,7 +523,7 @@ public class Main extends javax.swing.JFrame {
          */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
+                if ("Windows".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
                 }
@@ -494,12 +556,8 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
@@ -508,6 +566,7 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JButton jb_agregar;
     private javax.swing.JButton jb_cancelar_trig;
+    private javax.swing.JButton jb_cargar;
     private javax.swing.JButton jb_eliminar;
     private javax.swing.JButton jb_guardar;
     private javax.swing.JButton jb_guardar_trig;
@@ -517,12 +576,8 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JList<String> jl_origen;
     private javax.swing.JTextField nom_base_destino;
     private javax.swing.JTextField nom_base_origen;
-    private javax.swing.JTextField nom_instancia_destino;
-    private javax.swing.JTextField nom_instancia_origen;
     private javax.swing.JTextField nom_usuario_destino;
-    private javax.swing.JTextField nom_usuario_origen;
     private javax.swing.JTextField pass_destino;
-    private javax.swing.JTextField pass_origen;
     private javax.swing.JTextField puerto_destino;
     private javax.swing.JTextField puerto_origen;
     // End of variables declaration//GEN-END:variables
