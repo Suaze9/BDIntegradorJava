@@ -357,7 +357,7 @@ public class Main extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jb_probar_origenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jb_probar_origenActionPerformed
-        // TODO add your handling code here:
+        probarOrigen();
     }//GEN-LAST:event_jb_probar_origenActionPerformed
 
     private void jb_probar_destinoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jb_probar_destinoActionPerformed
@@ -392,6 +392,7 @@ public class Main extends javax.swing.JFrame {
     
     public void probarOrigen(){
         try{
+            JDBC_URL = "jdbc:sqlserver://localhost:1433;databaseName=sakila;integratedSecurity=true";
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
             connectSrc = DriverManager.getConnection(JDBC_URL);
             if (connectSrc != null) {
@@ -406,7 +407,7 @@ public class Main extends javax.swing.JFrame {
     public void probarDestino(){
         try{
             //PRUEBA
-            JDBC_URL_DEST= "jdbc:mysql://localhost:3307/northwind?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
+            JDBC_URL_DEST= "jdbc:mysql://localhost:3307/sakila?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
             //PRUEBA
             //Class.forName("com.mysql.jdbc.Driver");
             connectDest = DriverManager.getConnection(JDBC_URL_DEST,"root", "password");
@@ -415,7 +416,7 @@ public class Main extends javax.swing.JFrame {
                 DatabaseMetaData metaObj = (DatabaseMetaData) connectDest.getMetaData();
                 System.out.println("Driver Name?= " + metaObj.getDriverName() + ", Driver Version?="  + metaObj.getDriverVersion() + ", Product Name?= " + metaObj.getDatabaseProductName() + ", Product Version?= " + metaObj.getDatabaseProductVersion());
             }
-            ResultSet rs=stmt.executeQuery("select * from employees");  
+            ResultSet rs=stmt.executeQuery("select * from actor");  
             ResultSetMetaData metadata = rs.getMetaData();
             int ColCount = metadata.getColumnCount();
             while(rs.next()){
